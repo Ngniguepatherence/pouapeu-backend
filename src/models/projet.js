@@ -19,7 +19,7 @@ const userSchema = new Mongoose.Schema({
         require: false,
     },
     createat: {
-        type: String,
+        type: Date,
         require: true,
         unique: true,
     }

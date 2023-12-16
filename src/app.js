@@ -8,7 +8,7 @@ const projetRoutes = require('./routes/projetRoutes');
 require('./models/passportConfig')(passport);
 require('dotenv').config();
 const authRoutes = require('./routes/googleRoutes');
-
+const profilRoutes = require('./routes/profilRoutes');
 const connectDB = require('./models/db');
 const cors = require('cors');
 
@@ -35,6 +35,7 @@ app.use(passport.session());
 app.use('/api/users',userRoutes);
 app.use('/api/projets',projetRoutes);
 app.use('/auth',authRoutes);
+app.use('/api/profiles',profilRoutes);
 
 
 app.listen(port, ()=>{
