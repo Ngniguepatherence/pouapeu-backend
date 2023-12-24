@@ -38,6 +38,8 @@ app.use('/auth',authRoutes);
 app.use('/api/profiles',profilRoutes);
 
 
-app.listen(port, ()=>{
-    console.log(`Serveur starting and running in port ${port}`);
-})
+// app.listen(port, ()=>{
+//     console.log(`Serveur starting and running in port ${port}`);
+// })
+
+module.exports = app;

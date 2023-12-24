@@ -31,9 +31,9 @@ const profilController = {
             await newProfil.save();
             res.status(200).json({
                 message: "Profile successful created",
-                newUser,
+                newProfil,
                 });
-        }
+        }   
         catch(error) {
             res.status(500).json({message: "Internal Server Error"});
         }
@@ -52,6 +52,18 @@ const profilController = {
         catch(error) {
             res.status(500).json({message: "Internal Server Error during update"});
         }
+    },
+
+    // delete profiler
+    deleteProfil: async (req,res) => {
+        try {
+            const {id} = req.params;
+            await profil.findByIdAndDelete(id);
+            res.json({success: true});
+        } catch(error) {
+            res.status(500).json({message: "Internal Server Error"});
+        } 
+    
     }
 }
 
