@@ -9,6 +9,19 @@ const ProjetController = {
             res.status(500).json({message: "Internal Server Error" });
         }
     },
+    getProjetId: async (req,res) => {
+        try {
+            const {id}  = req.params;
+            const projet = await Projet.findById(id);
+            if(!projet) {
+                res.status(404).json({message: "Projet not found"});
+            }
+            res.json(projet);
+        }
+        catch(error) {
+            res.status(500).json({message: "Internal Server ERROR"});
+        }
+    },
 
     addProjet: async (req, res) => {
         const {title,description, responsable, logo,createat} = req.body;
@@ -24,7 +37,7 @@ const ProjetController = {
         catch(error) {
             res.status(401).json({
                 message: "Projet not successful created",
-                error: err.message,
+                error: error.message,
             });
         }
     },

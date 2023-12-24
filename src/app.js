@@ -21,6 +21,7 @@ connectDB();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(express.static("public"));
 app.use(
     session({
         secret: 'SECRET',
@@ -38,6 +39,8 @@ app.use('/auth',authRoutes);
 app.use('/api/profiles',profilRoutes);
 
 
-app.listen(port, ()=>{
-    console.log(`Serveur starting and running in port ${port}`);
-})
+// app.listen(port, ()=>{
+//     console.log(`Serveur starting and running in port ${port}`);
+// })
+
+module.exports = app;
