@@ -15,7 +15,6 @@ module.exports = () => {
             let existingUser = await Auth.findOne({ 'google.id': profile.id });
             if (existingUser) {
                 return done(null, existingUser);
-                console.log(`User is already exist ${profile.displayName}`);
             }
             console.log('Creating new User..');
             const newAuth = new Auth({
