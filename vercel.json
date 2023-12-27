@@ -1,3 +1,8 @@
 {
-  "rewrites": [{ "source": "/src/(.*)", "destination": "/src" }]
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/controllers/(.*)", "destination": "/controllers/$1" },
+    { "source": "/models/(.*)", "destination": "/models/$1" },
+    { "source": "/(.*)", "destination": "/" }
+  ]
 }
