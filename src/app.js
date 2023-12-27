@@ -49,6 +49,9 @@ const verifyToken = (req,res,next) => {
   })
 }
 
+app.get("/api/test", (req, res) => {
+  res.json({ greeting: "Authserver vous salut" });
+});
 app.use('/api/users',userRoutes);
 app.use('/api/projets',projetRoutes);
 app.use('/auth',authRoutes);
