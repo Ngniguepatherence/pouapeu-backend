@@ -11,6 +11,7 @@ const authRoutes = require('./routes/googleRoutes');
 const profilRoutes = require('./routes/profilRoutes');
 const connectDB = require('./models/db');
 const cors = require('cors');
+const jwt = require('jsonwebtoken')
 
 
 const app = express();
@@ -19,6 +20,7 @@ const port = process.env.PORT || 8000;
 connectDB();
 
 app.use(cors());
+
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(
@@ -38,8 +40,8 @@ app.use('/auth',authRoutes);
 app.use('/api/profiles',profilRoutes);
 
 
-// app.listen(port, ()=>{
-//     console.log(`Serveur starting and running in port ${port}`);
-// })
+app.listen(port, ()=>{
+    console.log(`Serveur starting and running in port ${port}`);
+})
 
-module.exports = app;
+// module.exports = app;

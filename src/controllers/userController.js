@@ -1,5 +1,7 @@
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
 
+const secret = "je vous en prie";
 const userController = {
     getUsers: async (req, res) => {
         try {
@@ -19,7 +21,8 @@ const userController = {
         if (password != user.password) {
             return res.status(401).json({error: 'Invalid Username or password'});
         }
-        res.json({message: 'Login successful'});
+        const token = jwt.sign({userId: user._id}, secret, {expiresIn: '1h'});
+        res.status(200).json({token, expiresIn: 3600});
             
             
     },
