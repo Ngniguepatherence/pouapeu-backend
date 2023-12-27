@@ -11,6 +11,7 @@ const authRoutes = require('./routes/googleRoutes');
 const profilRoutes = require('./routes/profilRoutes');
 const connectDB = require('./models/db');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 
 
@@ -33,6 +34,20 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+const verifyToken = (req,res,next) => {
+  const token = req.headers['authorization'];
+  if(!token) {
+    return res.status(403).send('Token is required for authentification');
+  }
+
+  jwt.verify(token, 'password123', (err, user) => {
+    if(err) {
+      return res.status(403).send('Invalid token');
+    }
+    req.user = user;
+    next();
+  })
+}
 
 app.use('/api/users',userRoutes);
 app.use('/api/projets',projetRoutes);
