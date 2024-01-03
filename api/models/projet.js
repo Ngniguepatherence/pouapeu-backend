@@ -21,7 +21,7 @@ const userSchema = new Mongoose.Schema({
     createat: {
         type: Date,
         require: true,
-        unique: true,
+        unique: false,
     }
     
   });

@@ -11,6 +11,19 @@ const userController = {
             res.status(500).json({message: "Internal Server Error" });
         }
     },
+    // get a particular user
+    getUserById: async (req, res) => {
+
+        try {
+            const { id } = req.params;
+            const user = await User.findById(id);
+            res.json(user);
+        } catch(error) {
+            res.status(500).json({message: "Internal Server Error" });
+        } 
+        
+    },
+
     getUser: async (req, res) => {
           
         const { email, password } = req.body;
@@ -21,7 +34,8 @@ const userController = {
         if (password != user.password) {
             return res.status(401).json({error: 'Invalid Username or password'});
         }
-        const token = jwt.sign({userId: user._id}, secret, {expiresIn: '1h'});
+        const token = jwt.sign({userId: user}, secret, {expiresIn: '1h'});
+        console.log(token);
         res.status(200).json({token, expiresIn: 3600});
             
             

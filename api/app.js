@@ -9,10 +9,11 @@ require('./models/passportConfig')(passport);
 require('dotenv').config();
 const authRoutes = require('./routes/googleRoutes');
 const profilRoutes = require('./routes/profilRoutes');
+const Auth = require('./routes/authRoutes');
 const connectDB = require('./models/db');
 const cors = require('cors');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
+const EventRoutes = require('./routes/EventRoutes');
 
 
 const app = express();
@@ -49,17 +50,16 @@ const verifyToken = (req,res,next) => {
   })
 }
 
-app.get("/api/test", (req, res) => {
-  res.json({ greeting: "Authserver vous salut" });
-});
+
 app.use('/api/users',userRoutes);
 app.use('/api/projets',projetRoutes);
 app.use('/auth',authRoutes);
 app.use('/api/profiles',profilRoutes);
+app.use('/api/auth', Auth);
+app.use('/api/events', EventRoutes);
 
+app.listen(port, ()=>{
+    console.log(`Serveur starting and running in port ${port}`);
+})
 
-// app.listen(port, ()=>{
-//     console.log(`Serveur starting and running in port ${port}`);
-// })
-
-module.exports = app;
+// module.exports = app;

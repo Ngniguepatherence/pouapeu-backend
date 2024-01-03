@@ -12,7 +12,11 @@ const ProfileSchema = new mongoose.Schema({
   createdAt: { type: Date, required: true },
   email: { type: String, required: true },
   name: { type: String, required: true },
+  surname: { type: String, required: true },
+  profession: { type: String, required: true },
   phone: { type: String, required: true },
+  role: {type: String, required: true},
+  password: {type: String, required: true},
   google: {
     id: {
         type: String,

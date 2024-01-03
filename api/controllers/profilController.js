@@ -1,4 +1,8 @@
 const profil = require('../models/profil');
+const jwt = require('jsonwebtoken');
+
+const secret = "je vous en prie";
+
 
 const profilController = {
     getProfils: async (req,res) => {
@@ -12,13 +16,17 @@ const profilController = {
 
     getProfil: async (req,res) => {
         try {
-            const name = req.body;
-            const Profil = await profil.findOne(name);
+            const { email, password } = req.body;
+            const Profil = await profil.findOne({email});
             if(!Profil) {
                 return res.status(404).json({message: "Profil not found"});
             }
-            res.json(Profil);
-            console.log(Profil);
+            if (password != Profil.password) {
+                return res.status(401).json({error: 'Invalid Username or password'});
+            }
+            const token = jwt.sign({userId: Profil}, secret, {expiresIn: '1h'});
+            console.log(token);
+            res.status(200).json({token, expiresIn: 3600});
         }catch(error) {
             res.status(500).json({message: "Internal Server Error"});
         }
@@ -27,12 +35,16 @@ const profilController = {
 
     addProfil: async (req,res) => {
         try {
-            const newProfil = new profil(req.body);
+            const {password, passwordConfirm} = req.body;
+            if (password == passwordConfirm) {
+                const newProfil = new profil(req.body);
             await newProfil.save();
             res.status(200).json({
                 message: "Profile successful created",
                 newProfil,
                 });
+            }
+            
         }   
         catch(error) {
             res.status(500).json({message: "Internal Server Error"});
