@@ -8,8 +8,12 @@ const ProfileSchema = new mongoose.Schema({
     state: { type: String, required: true },
     street: { type: String, required: true },
   },
-  avatar: { type: String, required: true },
-  createdAt: { type: Date, required: true },
+  avatar: { type: String, required: false },
+  createat: {
+    type: Date,
+    required: true,
+    default: Date.now()
+},
   email: { type: String, required: true },
   name: { type: String, required: true },
   surname: { type: String, required: true },

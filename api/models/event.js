@@ -14,8 +14,7 @@ const event = new mongoose.Schema({
       required: true,
     },
     user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Profile', // Référence à un modèle d'utilisateur
+      type: String, // Référence à un modèle d'utilisateur
       required: true,
     },
     status: {
@@ -23,6 +22,11 @@ const event = new mongoose.Schema({
       enum: ['en cours', 'terminé'],
       default: 'en cours',
     },
+    createat: {
+      type: Date,
+      required: true,
+      default: Date.now()
+  },
   });
 
 const Event = mongoose.model('Evenement', event);

@@ -3,6 +3,15 @@ require('dotenv').config();
 const passport = require('passport');
 const Auth = require('./auth');
 
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+});
+
+passport.deserializeUser(async(id,done) => {
+    const USER = await Auth.findById(id);
+    done(null, USER);
+})
+
 module.exports = () => {
     passport.use(new GoogleStrategy({
         clientID: process.env.ClientID,

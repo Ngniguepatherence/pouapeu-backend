@@ -14,6 +14,7 @@ const connectDB = require('./models/db');
 const cors = require('cors');
 const jwt = require('jsonwebtoken')
 const EventRoutes = require('./routes/EventRoutes');
+const path = require('path');
 
 
 const app = express();
@@ -34,6 +35,9 @@ app.use(
   );
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use('/api/files',express.static(path.join(__dirname, '/uploads')));
+app.use('/api/avatar',express.static(path.join(__dirname, '/uploads/avatars')));
 
 const verifyToken = (req,res,next) => {
   const token = req.headers['authorization'];

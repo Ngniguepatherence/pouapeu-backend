@@ -41,11 +41,11 @@ const EventController =  {
     },
 
     AddEvent: async (req,res) => {
-        try {
-            const { title, description, date, userId } = req.body;
-
+       try {
+            const { title, description, date, responsable } = req.body;
+            console.log(title,description,date,responsable);
             // Vérifiez si l'utilisateur existe avant de créer l'événement
-            const user = await Profile.findById(userId);
+            const user = await Profile.findById(responsable);
             if (!user) {
             return res.status(404).json({ message: 'Utilisateur non trouvé' });
             }
@@ -55,18 +55,18 @@ const EventController =  {
             title,
             description,
             date,
-            user: userId,
+            user: `${user.name + ' ' +  user.surname}`,
             });
 
     // Enregistrez l'événement dans la base de données
             await event.save();
 
             return res.status(201).json(event);
+        } catch (error) {
+            console.error('Erreur lors de la creation de l\'événement :', error);
+            res.status(500).json({ error: 'Erreur lors de la creation de l\'événement' });
         }
-        catch(error) {
-            console.error("Erreur lors de l'ajout d'un nouvel evenement");
-            res.status(500).json({message: "Internal Server Error"});
-        }
+       
     },
     UpdateEvent: async(req, res) => {
         try {

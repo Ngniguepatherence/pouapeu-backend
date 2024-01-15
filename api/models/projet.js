@@ -10,18 +10,21 @@ const userSchema = new Mongoose.Schema({
         required: true,
     },
     responsable: {
-        type:String,
-        unique:true,
-        required:true,
-    },
+        type: String, // Référence à un modèle d'utilisateur
+        required: true,
+      },
     logo: {
         type:String,
         require: false,
     },
+    dateinit: {
+        type: String,
+        require: true,
+    },
     createat: {
         type: Date,
-        require: true,
-        unique: false,
+        required: true,
+        default: Date.now()
     }
     
   });

@@ -1,10 +1,36 @@
 const profil = require('../models/profil');
 const jwt = require('jsonwebtoken');
+const asyncHandler = require('express-async-handler');
+// const bcrypt= require('bcrypt');
+const bcrypt = require('bcrypt');
+
 
 const secret = "je vous en prie";
 
+// bcrypt 
 
 const profilController = {
+    uploadImage : asyncHandler(async (req, res) => {
+        try {
+            if (req?.files?.length) {
+                console.log(req.files);
+                let uploadedFiles = req?.files?.map((image) => {
+                    return { img: image.filename };
+                });
+                res.status(200).send({
+                    success: true,
+                    messsage: "Files Uploaded",
+                    data: uploadedFiles,
+                });
+            } else {
+                console.log("Something is missing.");
+                res.status(400).send({ success: false, messsage: "Send Files." });
+            }
+        } catch (err) {
+            console.log("error", err);
+            res.status(503).send({ success: false, messsage: "Server Error." });
+        }
+    }),
     getProfils: async (req,res) => {
         try{
             const Profil = await profil.find();
@@ -34,21 +60,54 @@ const profilController = {
 
 
     addProfil: async (req,res) => {
-        try {
-            const {password, passwordConfirm} = req.body;
-            if (password == passwordConfirm) {
-                const newProfil = new profil(req.body);
+       
+    const {avatar, name,surname,email, phone,country,region,ville,rue,role,profession,password} = req.body;
+    // hash the password with bcrypt
+
+    
+        const newProfil = new profil({
+            address: {
+                city: ville,
+                country: country,
+                state: region,
+                street: rue
+            },
+            avatar: avatar,
+            email: email,
+            name: name,
+            surname: surname,
+            profession: profession,
+            phone: phone,
+            role: password,
+            password: role
+        });
+        console.log(newProfil);
             await newProfil.save();
             res.status(200).json({
                 message: "Profile successful created",
                 newProfil,
                 });
-            }
             
-        }   
-        catch(error) {
-            res.status(500).json({message: "Internal Server Error"});
+            
+        
+    },
+    // 
+    // Reset password
+    resetPassword: async (req,res) => {
+        try {
+            const {id} = req.params;
+            const password = req.body.password;
+            const hashpassword = await bcrypt.hash(password, 10);
+            const updateProfil = await profil.findByIdAndUpdate(id, req.body, {new: true});
+            res.json({
+                message: "Profile successful updated",
+                updateProfil,
+            });
         }
+        catch(error) {
+            res.status(500).json({message: "Internal Server Error during update"});
+        } 
+    
     },
     // update of profil
     updateProfil: async (req,res) => {
