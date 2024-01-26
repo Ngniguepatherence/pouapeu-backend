@@ -81,7 +81,18 @@ const ProjetController = {
         // }
     },
 
-    deleteProjet: async (req, res) => {}
+    deleteProjet: async (req, res) => {
+        try {
+            const {id}  = req.params;
+            await Projet.findByIdAndDelete(id);
+            
+            res.json({message: "Projet Remove Successfully"});
+            
+        }
+        catch(error) {
+            res.status(500).json({message: "Internal Server ERROR"});
+        } 
+    }
 }
 
 

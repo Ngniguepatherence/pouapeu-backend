@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
 // const bcrypt= require('bcrypt');
 const bcrypt = require('bcrypt');
-
+const nodemailer = require('nodemailer');
 
 const secret = "je vous en prie";
 
@@ -83,6 +83,35 @@ const profilController = {
         });
         console.log(newProfil);
             await newProfil.save();
+            const transporter = nodemailer.createTransport({
+                service: "gmail",
+                host: "smtp.gmail.com",
+                port:587,
+                secure: true,
+                auth: {
+                    user: 'ngniguepafaha@gmail.com',
+                    pass:'epcp ltmc rfzc khsj',
+                },
+                tls: {
+                    rejectUnauthorized: false,
+                },
+            });
+
+            const mailOptions = {
+                from: {
+                    name: 'Pouapeu Association',
+                    address: 'ngniguepafaha@gmail.com',
+                },
+                to: email,
+                subject: 'Pouapeu Account',
+                text: `Bienvenu sur dans l\'association pouapeu ${name} ${surname}. Votre Compte viens d'etre active et vous pouvez retrouvez vos elements de connexion ci dessous:  username: ${email} password: ${password}Thank you. Veuillez changer ce mot de passe a votre premiere connexion pour des mesures de securite`,
+              };
+            transporter.sendMail(mailOptions, function(err, info){
+                if(err)
+                    console.log(err);
+                else
+                    console.log(info);
+            });
             res.status(200).json({
                 message: "Profile successful created",
                 newProfil,
@@ -97,7 +126,6 @@ const profilController = {
         try {
             const {id} = req.params;
             const password = req.body.password;
-            const hashpassword = await bcrypt.hash(password, 10);
             const updateProfil = await profil.findByIdAndUpdate(id, req.body, {new: true});
             res.json({
                 message: "Profile successful updated",

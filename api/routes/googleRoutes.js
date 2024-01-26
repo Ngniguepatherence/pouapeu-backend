@@ -3,10 +3,15 @@ const router = express.Router();
 const passport = require('passport');
 require('../models/passportConfig');
 
+router.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "*");
+    res.header("Access-Control-Allow-Headers", "*");
+    next();});
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/google/callback', passport.authenticate('google', {session: false}),
     (req,res) => {
-        res.redirect("/auth/profile");
+        res.redirect("http:localhost:3000/");
     }
 );
 

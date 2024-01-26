@@ -26,5 +26,5 @@ router.get('/:id',projetController.getProjetId);
 router.post('/',projetController.addProjet);
 // upload image
 router.post('/uploadImage', upload.array("files", 10),projetController.uploadImage);
-
+router.post('/delete/:id',projetController.deleteProjet);
 module.exports = router;
