@@ -24,6 +24,10 @@ const upload = multer({storage: storage});
 router.get('/',projetController.getProjet);
 router.get('/:id',projetController.getProjetId);
 router.post('/',projetController.addProjet);
+router.post('/description/:id', projetController.UpdateDescr);
+// router.delete('/:id', projetController.deleteProjet);
+router.get('/rapport',projetController.getReport);
+router.post('/rapport/:id', projetController.addReport);
 // upload image
 router.post('/uploadImage', upload.array("files", 10),projetController.uploadImage);
 router.post('/delete/:id',projetController.deleteProjet);

@@ -25,7 +25,19 @@ const userSchema = new Mongoose.Schema({
         type: Date,
         required: true,
         default: Date.now()
-    }
+    },
+    rapports: [{
+        title: {
+          type: String,
+          required: true,
+          maxlength: 255
+        },
+        content: {
+          type: String,
+          required: true,
+          maxlength: 1000
+        }
+    }]
     
   });
 

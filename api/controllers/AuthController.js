@@ -6,13 +6,15 @@ const secret = "je vous en prie";
 
 const authControl = {
     Login: async (req,res) => {
-        const { email, password } = req.body;
+        const { email, expires } = req.body;
         const user = await profil.findOne({email});
         if(!user) {
-            return res.status(401).json({error: 'Invalid Username or password'});
+            return res.status(401).json({error: 'Invalid email'});
         }
-        if (password != user.password) {
-            return res.status(401).json({error: 'Invalid Username or password'});
+        const expiration = new Date(expires).getTime();
+        const currentTimestamp = new Date().getTime();
+        if (currentTimestamp > expiration) {
+            return res.status(401).json({error: 'Le token a expiré'});
         }
         const token = jwt.sign({userId: user}, secret, {expiresIn: '1h'});
         console.log(token);

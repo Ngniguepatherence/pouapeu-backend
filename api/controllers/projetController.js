@@ -48,22 +48,71 @@ const ProjetController = {
             res.status(500).json({message: "Internal Server ERROR"});
         }
     },
+    addReport: async(req,res) => {
+        try {
+            const {id} = req.params;
+            const {reportData} = req.body;
+            const projet = await Projet.findById(id);
+            if(!projet) {
+                res.status(404).json({message: "Projet not found"});
+            }
+            projet.rapports.push(reportData);
+            await projet.save();
+            res.status(201).json({
+                message: 'Rapport ajouté avec succès',
+                projet
+            });
+        }
+        catch(error) {
+            res.status(500).json({message: "Erreur lors de l'ajout du rapport"});
+        }
+    },
+    getReport: async (req, res) => {
+        try {
+            const {id} = req.params;
+            const projet = await Projet.findById(id);
+            if(!projet) {
+                res.status(404).json({message: "Projet not found"});
+            }
+            res.json(projet.rapports);
+        }
+        catch(error) {
+            res.status(500).json({message: "Internal Server ERROR"});
+        } 
+    },
+
+    UpdateDescr: async (req, res) => {
+        try {
+            const {id}  = req.params;
+            const {description} = req.body;
+            console.log(description);
+            
+            const projet = await Projet.findByIdAndUpdate(id, {description}, {new: true});
+            if (!projet) {
+                return res.status(404).json({ message: 'Projet non trouvé' });
+              }
+              res.status(200).json({
+                message: 'Description du projet mise à jour avec succès',
+                projet
+              });
+        }
+         catch(error) {
+            res.status(500).json({message: "Internal Server ERROR"});
+        }
+    },
 
     addProjet: async (req, res) => {
-        const {title,description, responsable,logo, dateinit} = req.body;
+        const {title,description, acteurs,logo, dateinit} = req.body;
         
-        // try {
+        try {
             
-            console.log(title,description,responsable,dateinit,logo);
-            // Vérifiez si l'utilisateur existe avant de créer l'événement
-            const user = await Profile.findById(responsable);
-            if (!user) {
-            return res.status(404).json({ message: 'Utilisateur non trouvé' });
-            }
+            console.log(title,description,acteurs,dateinit,logo);
+            const responsable = acteurs.join(', ');
+            
             const newProjet = new Projet({
                 title,
                 description,
-                responsable: `${user.name + ' ' + user.surname}`, 
+                responsable: responsable, 
                 logo,
                 dateinit
             });
@@ -72,13 +121,13 @@ const ProjetController = {
                 message: "projet successful created",
                 newProjet,
                 });
-        // }
-        // catch(error) {
-        //     res.status(401).json({
-        //         message: "Projet not successful created",
-        //         error: error.message,
-        //     });
-        // }
+        }
+        catch(error) {
+            res.status(401).json({
+                message: "Projet not successful created",
+                error: error.message,
+            });
+        }
     },
 
     deleteProjet: async (req, res) => {

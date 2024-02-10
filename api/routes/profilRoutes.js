@@ -26,6 +26,8 @@ router.get('/',profilController.getProfils);
 router.get('/login',profilController.getProfil);
 router.post('/',profilController.addProfil);
 router.post('/uploadImage', upload.array("files", 10),profilController.uploadImage);
-router.post('/reset-password',profilController.resetPassword);
+router.post('/reset-password/:id',profilController.resetPassword);
+router.post('/forget-password',profilController.forgotPassword);
+router.post('/verification',profilController.Verification);
 
 module.exports = router;

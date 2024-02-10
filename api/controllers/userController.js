@@ -2,6 +2,7 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
 const secret = "je vous en prie";
+
 const userController = {
     getUsers: async (req, res) => {
         try {
@@ -31,7 +32,9 @@ const userController = {
         if(!user) {
             return res.status(401).json({error: 'Invalid Username or password'});
         }
-        if (password != user.password) {
+        // use bcrypt to compare password with the hash password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
             return res.status(401).json({error: 'Invalid Username or password'});
         }
         const token = jwt.sign({userId: user}, secret, {expiresIn: '1h'});
@@ -44,6 +47,14 @@ const userController = {
     addUser: async (req, res) => {
         try {
             const {names,surname, email, phone,profession, password, role} = req.body;
+            // use bcrypt to hash it before save it in the database
+            password = await bcrypt.hash(password, 10);
+            console.log(password);
+            if (!email || !password) {
+                return res.status(400).json({message: "email and password are required"});
+            }
+            const user = await User.findOne({email});
+            
             if (password.length <8) {
                 return res.status(400).json({message: "password less than 8 characters"});
             }

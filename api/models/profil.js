@@ -5,8 +5,6 @@ const ProfileSchema = new mongoose.Schema({
   address: {
     city: { type: String, required: true },
     country: { type: String, required: true },
-    state: { type: String, required: true },
-    street: { type: String, required: true },
   },
   avatar: { type: String, required: false },
   createat: {

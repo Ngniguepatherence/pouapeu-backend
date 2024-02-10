@@ -20,7 +20,7 @@ module.exports = () => {
         passReqToCallback: true
     },
     async (request, accessToken, refreshToken, profile, done) => {
-        try {
+        // try {
             let existingUser = await Auth.findOne({ 'google.id': profile.id });
             if (existingUser) {
                 return done(null, existingUser);
@@ -38,10 +38,10 @@ module.exports = () => {
             });
             await newAuth.save();
             return done(null, newAuth);
-        }
-        catch (error) {
-            return done(error, false)
-        }
+        // }
+        // catch (error) {
+        //     return done(error, false)
+        // }
     }
     ));
 }
