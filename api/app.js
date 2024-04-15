@@ -9,12 +9,14 @@ require('./models/passportConfig')(passport);
 require('dotenv').config();
 const authRoutes = require('./routes/googleRoutes');
 const profilRoutes = require('./routes/profilRoutes');
+const TontineRoutes = require('./routes/TontineRoutes');
 const Auth = require('./routes/authRoutes');
 const connectDB = require('./models/db');
 const cors = require('cors');
 const jwt = require('jsonwebtoken')
 const EventRoutes = require('./routes/EventRoutes');
 const path = require('path');
+const SeanceRoutes = require('./routes/seanceRoutes');
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -69,6 +71,8 @@ app.use('/auth',authRoutes);
 app.use('/api/profiles',profilRoutes);
 app.use('/api/auth', Auth);
 app.use('/api/events', EventRoutes);
+app.use('/api/tontine',TontineRoutes);
+app.use('/api/seance',SeanceRoutes);
 
 app.listen(port, ()=>{
     console.log(`Serveur starting and running in port ${port}`);

@@ -53,7 +53,19 @@ const profilController = {
             res.status(500).json({message: "Internal Server Error"});
         }
     },
+    getId: async(req,res) => {
+        const {id} = req.params;
+        try {
 
+            const Profil = await profil.findById(id);
+            if(!profil) {
+                return res.status(404).json({message: "Profil not found"});
+            }
+            res.json(Profil);
+        }catch {
+            res.status(500).json({message: "Internal Server Error"});
+        }
+    },
     getProfil: async (req,res) => {
         try {
             const { email, password } = req.body;

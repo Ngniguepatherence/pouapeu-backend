@@ -25,6 +25,7 @@ const upload = multer({storage: storage});
 router.get('/',profilController.getProfils);
 router.get('/login',profilController.getProfil);
 router.post('/',profilController.addProfil);
+router.post('/:id',profilController.getId);
 router.post('/uploadImage', upload.array("files", 10),profilController.uploadImage);
 router.post('/reset-password/:id',profilController.resetPassword);
 router.post('/forget-password',profilController.forgotPassword);
