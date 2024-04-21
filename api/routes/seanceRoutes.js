@@ -6,6 +6,6 @@ const SeanceController = require('../controllers/SeanceController');
 
 router.post('/', SeanceController.addSeance);
 router.get('/', SeanceController.getALL);
-
+router.get('/:id', SeanceController.getOne);
 
 module.exports = router;
