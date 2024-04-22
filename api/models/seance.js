@@ -59,6 +59,7 @@ const SeanceSchema = new Mongoose.Schema({
     // Controbution social
     cs_membre_non_tontinar : { type: Number, required: false },
     cs_membre_tontinar : { type: Number, required: false },
+    cs_total : { type: Number, required: false },
     echec_cs : { type: Number, required: false },
     solde_cs : { type: Number, required: false },
   });
