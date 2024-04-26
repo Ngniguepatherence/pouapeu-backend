@@ -20,7 +20,7 @@ const calsulateSeanceSummary = async (seance_id) => {
         const newSeance = {
             recette_total_plat:0,
             echec_plat: 0,
-            solde_contribution__plat:0,
+            solde_contribution_plat:0,
 
             recette_total_tontine:0,
             echec_tontine:0,
@@ -40,13 +40,13 @@ const calsulateSeanceSummary = async (seance_id) => {
                 newSeance.echec_plat ++;
 
             newSeance.cs_total += Number(p.montant_prelevement_social)
-            if(p.montant_prelevement_social <= 0)
+            if(Number(p.montant_prelevement_social) <= 0)
                 newSeance.echec_cs ++;
         
         }
 
-        newSeance.montant_tontine -= newSeance.montant_prelevement_social
-
+        newSeance.montant_tontine -= newSeance.cs_total
+        newSeance.solde_contribution_plat = seance.recette_total_plat - seance.montant_receptioniste
         await seance.updateOne({...newSeance})
     }catch(err){
         console.error(err)
@@ -166,7 +166,7 @@ const SeanceController = {
 
     saveParticipations: async (req, res) => {
         console.log(req.body)
-        const {participations, montant_receptioniste, montant_demi_non_decaisse} = req.body
+        const {participations, montant_receptioniste, montant_beneficiaire} = req.body
         try {
             const seance = await Seance.findById(req.params.id)
             await seance.populate([
@@ -180,7 +180,7 @@ const SeanceController = {
                 }]
             )
 
-            const effectif =0
+            var effectif =0
             for( const p of participations){{
                 await ParticipationSeance.updateOne({
                     _id: p._id,
@@ -192,7 +192,7 @@ const SeanceController = {
             await seance.updateOne({
                 effectif: effectif,
                 montant_receptioniste: montant_receptioniste,
-                montant_demi_non_decaisse: montant_demi_non_decaisse,
+                montant_beneficiaire: montant_beneficiaire,
             })
 
             await calsulateSeanceSummary(seance._id)
@@ -211,7 +211,7 @@ const SeanceController = {
                     }
                 }]
             )
-            console.log(newSeance)
+            // console.log(newSeance)
             res.json(newSeance);
             
           }catch(err){

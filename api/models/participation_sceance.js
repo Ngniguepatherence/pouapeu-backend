@@ -21,7 +21,7 @@ const ParticipationSchema = new mongoose.Schema({
     seance: {
         type: mongoose.Types.ObjectId,
         ref: 'Seance',
-        reqrequireduire: true
+        require: true
     }, 
 
     createat: {
