@@ -18,6 +18,7 @@ const EventRoutes = require('./routes/EventRoutes');
 const path = require('path');
 const SeanceRoutes = require('./routes/seanceRoutes');
 const ParticipationRoutes = require('./routes/participations')
+const SaisonRoutes = require('./routes/saisonRoutes')
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -75,6 +76,7 @@ app.use('/api/events', EventRoutes);
 app.use('/api/tontine',TontineRoutes);
 app.use('/api/seance',SeanceRoutes);
 app.use('/api/participations',ParticipationRoutes);
+app.use('/api/saisons',SaisonRoutes);
 
 app.listen(port, ()=>{
     console.log(`Serveur starting and running in port ${port}`);

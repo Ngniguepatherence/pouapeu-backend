@@ -69,3 +69,5 @@ const saisonController = {
         }
     }
 }
+
+module.exports = saisonController
