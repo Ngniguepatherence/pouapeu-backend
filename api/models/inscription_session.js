@@ -13,7 +13,8 @@ const InscriptionSchema = new mongoose.Schema({
 
     nombre_de_bouf: {
         type: Number,
-        require: false
+        require: false,
+        default: 0
     }
 });
 

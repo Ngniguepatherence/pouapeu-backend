@@ -60,6 +60,10 @@ const saisonController = {
 
             saison.participants.push(inscription)
             await saison.save()
+
+            await saison.populate({
+                path:'participants',
+            })
             console.log(saison)
 
             res.json(saison);
