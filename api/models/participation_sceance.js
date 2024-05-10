@@ -2,12 +2,14 @@
 const mongoose = require('mongoose');
 const Seance = require('./seance');
 const Profile = require('./profil');
+const Inscription = require('./inscription_saison');
+const Sanctions = require('./sanctions');
 
 const ParticipationSchema = new mongoose.Schema({
   
-    membre: { 
+    inscrit: { 
         type: mongoose.Types.ObjectId, 
-        ref: Profile,
+        ref: Inscription,
         required: true 
     },
     presence : {type: Boolean, require: true},
@@ -15,8 +17,11 @@ const ParticipationSchema = new mongoose.Schema({
     montant_tontine: {type: Number, require: false},
     montant_plat: {type: Number, require: false},
     montant_prelevement_social: {type: Number, require: false},
-    montant_sanction: {type: Number, require: false},
-    motif_sanction: {type: String, require: false},
+    
+    sanctions : [{
+        type: mongoose.Types.ObjectId,
+        ref: Sanctions,
+    }],
 
     seance: {
         type: mongoose.Types.ObjectId,

@@ -15,7 +15,13 @@ const InscriptionSchema = new mongoose.Schema({
         type: Number,
         require: false,
         default: 0
-    }
+    },
+
+    nombre_de_reception: {
+        type: Number,
+        require: false,
+        default: 0
+    },
 });
 
 const Inscription = mongoose.model('Inscription', InscriptionSchema);

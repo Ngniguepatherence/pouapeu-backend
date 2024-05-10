@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Inscription = require('./inscription_session');
+const Inscription = require('./inscription_saison');
 
 const SaisonSchema = new mongoose.Schema({
     libelle: {
@@ -23,6 +23,30 @@ const SaisonSchema = new mongoose.Schema({
         require: false
     },
     montant_un_nom: {
+        type: Number,
+        require: false
+    },
+
+    total_cotise_plat:{
+        type: Number,
+        require: false
+
+    },
+    total_decaisse_plat:{
+        type: Number,
+        require: false
+    },
+
+    total_cotise_tontine:{
+        type: Number,
+        require: false
+    },
+    total_decasse_tontine:{
+        type: Number,
+        require: false
+    },
+
+    total_prelevement_social:{
         type: Number,
         require: false
     },

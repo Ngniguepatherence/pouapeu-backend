@@ -1,6 +1,10 @@
 const Mongoose = require('mongoose');
 const Profile = require('./profil');
 const ParticipationSeance = require('./participation_sceance');
+const { default: mongoose } = require('mongoose');
+const Saison = require('./saison');
+const Sanctions = require('./sanctions');
+const Inscription = require('./inscription_saison');
 
 const SeanceSchema = new Mongoose.Schema({
     date: {
@@ -8,19 +12,12 @@ const SeanceSchema = new Mongoose.Schema({
         required: true,
     },
 
-    session: {
-        type: String,
+    saison: {
+        type: mongoose.Types.ObjectId,
+        ref: Saison,
         required: true,
     },
     
-    nbre_pers_tontinard: {
-        type: String,
-        required: false,
-    },
-    nbre_pers_non_tontinard: {
-        type: String,
-        required: false,
-    },
     effectif: {
         type: String,
         required: false,
@@ -28,18 +25,25 @@ const SeanceSchema = new Mongoose.Schema({
 
     beneficaire_tontine: {
         type: Mongoose.Schema.Types.ObjectId, // Référence à un modèle d'utilisateur
-        ref: Profile
+        ref: Inscription
     },
 
     beneficaire_plat: {
         type: Mongoose.Schema.Types.ObjectId, // Référence à un modèle d'utilisateur
-        ref: Profile
+        ref: Inscription
     },
 
     participations: [
         {
             type: Mongoose.Schema.Types.ObjectId, // Référence à un modèle d'utilisateur
             ref: ParticipationSeance
+        }
+    ],
+
+    sanctions: [
+        {
+            type: Mongoose.Schema.Types.ObjectId,
+            ref: Sanctions
         }
     ],
 

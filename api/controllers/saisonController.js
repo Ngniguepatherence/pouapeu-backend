@@ -1,4 +1,4 @@
-const Inscription = require("../models/inscription_session");
+const Inscription = require("../models/inscription_saison");
 const Saison = require("../models/saison")
 
 const saisonController = {
@@ -20,12 +20,15 @@ const saisonController = {
 
     getAll: async(req,res) => {
         try {
-            const saisons = await Saison.find()
+            const saisons = await Saison.find().populate({
+                path:'participants',
+                populate: 'membre'
+            })
             console.log(saisons)
             res.json(saisons);
         }catch(err){
             console.error(err)
-            es.status(500).json({error: 'internal server error'})
+            res.status(500).json({error: 'internal server error'})
         }
 
     },
