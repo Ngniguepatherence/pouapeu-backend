@@ -5,7 +5,8 @@ const Seance = require('../models/seance');
 
 const computInscriEchecTontine = (nbr_nom, montant_un_nom, montant_tontine) => {
     const nbr_nom_tontine = montant_tontine / montant_un_nom
-    return nbr_nom - nbr_nom_tontine
+    console.log(montant_tontine," / ",montant_un_nom," = ",nbr_nom_tontine)
+    return Math.round( nbr_nom - nbr_nom_tontine)
 }
 const calsulateSeanceSummary = async (seance_id) => {
     try {
@@ -56,8 +57,8 @@ const calsulateSeanceSummary = async (seance_id) => {
             if(p.montant_plat <= 0)
                 newSeance.echec_plat ++;
 
-            newSeance.cs_total += Number(p.montant_prelevement_social)
-            if(Number(p.montant_prelevement_social) <= 0)
+            newSeance.cs_total += p.montant_prelevement_social
+            if(p.montant_prelevement_social <= 0)
                 newSeance.echec_cs ++;
         
         }
@@ -250,7 +251,12 @@ const SeanceController = {
                 },
                 {
                     path: 'sanctions',
-                    populate:['motif','inscrit']
+                    populate:['motif',{
+                        path: 'inscrit',
+                        populate:{
+                            path: 'membre'
+                        }
+                    }]
                 }
             ])
         
@@ -300,6 +306,10 @@ const SeanceController = {
                             path: 'membre'
                         }
                     }
+                },
+                {
+                    path: 'sanctions',
+                    populate:['motif','inscrit']
                 }]
             )
 
@@ -337,6 +347,7 @@ const SeanceController = {
                         path: 'membre'
                     }
                 },
+                'saison',
                 {
                     path: 'participations',
                     populate:{
@@ -345,8 +356,12 @@ const SeanceController = {
                             path: 'membre'
                         }
                     }
-                }]
-            )
+                },
+                {
+                    path: 'sanctions',
+                    populate:['motif','inscrit']
+                }
+            ])
             // console.log(newSeance)
             res.json(newSeance);
             

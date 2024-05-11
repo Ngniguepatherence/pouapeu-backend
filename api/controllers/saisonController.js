@@ -66,6 +66,7 @@ const saisonController = {
 
             await saison.populate({
                 path:'participants',
+                populate: 'membre'
             })
             console.log(saison)
 
