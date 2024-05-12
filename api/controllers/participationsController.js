@@ -4,13 +4,12 @@ const ParticipationSeance = require("../models/participation_sceance")
 const ParticipationsController = {
     getTontines: async  (req, res) => {
         try {
-            const participations = await ParticipationSeance.find().populate(['membre', 'seance']).exec()
+            const participations = await ParticipationSeance.find().populate([{
+                path:'inscrit',
+                populate: 'membre'
+            }, 'seance']).exec()
 
-            const tontines = participations.map( p => ({
-                membre: p.membre,
-                momtant: p.montant_tontine,
-                date: p.createat
-            }))
+           
             console.log(participations)
             res.json(participations.filter( elt => elt.montant_tontine > 0));
         }catch(err){
@@ -18,6 +17,10 @@ const ParticipationsController = {
             res.status(500).json({message: "Internal Server Error" });
         }
     } ,
+
+    bilanTontine: async  (req, res) => {
+        
+    },
 
     getPlats: async  (req, res) => {
         try {

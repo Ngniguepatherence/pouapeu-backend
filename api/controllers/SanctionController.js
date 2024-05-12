@@ -89,7 +89,6 @@ const sanctionsController = {
 
     updateMotif: async (req, res) => {
         try{
-            console.log('incoming: :',req.body)
             var motifSanction = await MotifSanction.findById(req.params.id)
             await motifSanction.updateOne({...req.body})
             console.log('motif sanction:',motifSanction)
@@ -102,7 +101,6 @@ const sanctionsController = {
     },
 
     getAllMotif: async (req, res) => {
-        console.log("===========================================")
         MotifSanction.find()
         // .populate(['motif', 'inscrit'])
         .exec().then(sanctions=> {
@@ -112,6 +110,10 @@ const sanctionsController = {
             console.error(err)
             res.status(500).json({message: "Internal Server Error" });
           })
+    },
+
+    getBilan: async (req, res) => {
+
     }
 }
 
