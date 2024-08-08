@@ -1,5 +1,6 @@
 const Inscription = require("../models/inscription_saison");
-const Saison = require("../models/saison")
+const Saison = require("../models/saison");
+const { inscriptionSaisonRepositories } = require("../repositories/inscription_saison");
 
 const saisonController = {
     addSaison: async (req, res) => {
@@ -53,17 +54,13 @@ const saisonController = {
 
     addInscription: async (req,res) => {
         try {
-            const inscription = new Inscription(req.body)
-            await inscription.save()
-
             const saison = await Saison.findById(req.params.id)
-            await saison.populate({
-                path:'participants',
-            })
 
-            saison.participants.push(inscription)
-            await saison.save()
+            const result_ins = inscriptionSaisonRepositories.addInscriptionSaison(req.body, saison)
 
+            if(!result_ins){
+                res.status(400).json({user_msg: "Le fond de caisse est insufisant"})
+            }
             await saison.populate({
                 path:'participants',
                 populate: 'membre'

@@ -18,6 +18,13 @@ const SaisonSchema = new mongoose.Schema({
         type: Number,
         require: false
     },
+
+    fond_caisse_minimal: {
+        type: Number,
+        require: true,
+        default: 0
+    },
+    
     montant_contribution_plat: {
         type: Number,
         require: false

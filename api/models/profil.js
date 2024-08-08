@@ -19,6 +19,7 @@ const ProfileSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   role: {type: String, required: true},
   password: {type: String, required: true},
+  fond_caisse: {type: Number, required: true, default:0},
   google: {
     id: {
         type: String,

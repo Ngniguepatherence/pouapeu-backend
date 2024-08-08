@@ -79,6 +79,7 @@ app.use('/api/seance',SeanceRoutes);
 app.use('/api/participations',ParticipationRoutes);
 app.use('/api/saisons',SaisonRoutes);
 app.use('/api/sanctions',SanctionRoutes);
+app.use('/api/automatisation_sanction',)
 
 app.listen(port, ()=>{
     console.log(`Serveur starting and running in port ${port}`);
