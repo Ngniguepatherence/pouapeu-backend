@@ -50,7 +50,7 @@ const Seance = require("../models/seance")
     
             for(const p of seance.participations){
                 newSeance.recette_total_tontine += p.montant_tontine - Number(p.montant_prelevement_social)
-                newSeance.echec_tontine += computInscriEchecTontine(p.inscrit.nombre_de_noms, seance.saison.montant_un_nom, p.montant_tontine);
+                newSeance.echec_tontine += seanceRepositories.computInscriEchecTontine(p.inscrit.nombre_de_noms, seance.saison.montant_un_nom, p.montant_tontine);
     
                 newSeance.recette_total_plat += p.montant_plat
                 if(p.montant_plat <= 0)

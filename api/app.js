@@ -20,6 +20,7 @@ const SeanceRoutes = require('./routes/seanceRoutes');
 const ParticipationRoutes = require('./routes/participations')
 const SaisonRoutes = require('./routes/saisonRoutes')
 const SanctionRoutes = require('./routes/sanctions')
+const AutoSanctionRoutes = require('./routes/automatisation_sanctions')
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -79,7 +80,7 @@ app.use('/api/seance',SeanceRoutes);
 app.use('/api/participations',ParticipationRoutes);
 app.use('/api/saisons',SaisonRoutes);
 app.use('/api/sanctions',SanctionRoutes);
-app.use('/api/automatisation_sanction',)
+app.use('/api/automatisation_sanction',AutoSanctionRoutes)
 
 app.listen(port, ()=>{
     console.log(`Serveur starting and running in port ${port}`);

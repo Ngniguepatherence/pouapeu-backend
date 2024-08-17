@@ -1,9 +1,18 @@
 const AutomatisationSanction = require("../models/automatisation_sanction")
-const { automatisationSanctionRepositorie } = require("../repositories/automatisation_sanction")
+const automatisationSanctionRepositorie  = require("../repositories/automatisation_sanction")
 
 const automatisationSanctionController = {
-    get_automatisations_possible:  (req, res)=> {
-        res.status(200).json(automatisationSanctionRepositorie.get_automatisations_possible())
+    get_automatisations_possible: async (req, res)=> {
+        try{
+            const automatisation_sanctions = await AutomatisationSanction.find().populate('motif')
+            const auto_possible = automatisationSanctionRepositorie.get_automatisations_possible().filter((auto,index)=>{
+               return automatisation_sanctions.find(elt => elt.code === auto.code) == undefined
+            })
+            res.status(200).json(auto_possible);
+        }catch (err) {
+            console.error(err)
+            res.status(500).json({error: 'internal server error'})
+        }
     },
 
     get_automatisations: async  (req, res)=> {

@@ -2,8 +2,8 @@ const ParticipationSeance = require('../models/participation_sceance');
 const Profile = require('../models/profil');
 const Sanctions = require('../models/sanctions');
 const Seance = require('../models/seance');
-const { participationRepositorie } = require('../repositories/participation');
-const { seanceRepositories } = require('../repositories/seance_repositore');
+const participationRepositorie  = require('../repositories/participation');
+const seanceRepositories  = require('../repositories/seance_repositore');
 
 const SeanceController = {
     addSeance: async (req, res) => {
@@ -216,7 +216,7 @@ const SeanceController = {
 
     saveParticipations: async (req, res) => {
         console.log(req.body)
-        const {participations, montant_receptioniste, montant_beneficiaire} = req.body
+        const {participations, beneficaire_tontine, montant_receptioniste, montant_beneficiaire} = req.body
         try {
             const seance = await Seance.findById(req.params.id)
             await seance.populate([
@@ -260,6 +260,7 @@ const SeanceController = {
                 effectif: effectif,
                 montant_receptioniste: montant_receptioniste,
                 montant_beneficiaire: montant_beneficiaire,
+                beneficaire_tontine: beneficaire_tontine,
             })
 
             await participationRepositorie.ApplyAutoSanction(seance._id)

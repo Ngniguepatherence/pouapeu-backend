@@ -1,6 +1,6 @@
 
  const automatisationSanctionRepositorie = {
-    get_automatisations_possible: async () => {
+    get_automatisations_possible:  () => {
         return [
             {
                 code: "ETAB",
