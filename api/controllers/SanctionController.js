@@ -28,6 +28,7 @@ const sanctionsController = {
             }
         ])
         .exec().then(sanctions=> {
+            // console.log(sanctions)
               res.json(sanctions);
             
           }).catch(err=>{
@@ -64,6 +65,7 @@ const sanctionsController = {
                 ...req.body
             })
 
+            console.log("updated sanction")
             console.log(sanction)
 
             res.json(sanction);
