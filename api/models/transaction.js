@@ -28,6 +28,8 @@ const TransactionShema = new mongoose.Schema({
 
     reference: {
         type: String,
+        require: true,
+        unique: true,
     }
 
 });

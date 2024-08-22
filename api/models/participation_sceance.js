@@ -1,6 +1,5 @@
 // Customer.js
 const mongoose = require('mongoose');
-const Seance = require('./seance');
 const Profile = require('./profil');
 const Inscription = require('./inscription_saison');
 const Sanctions = require('./sanctions');
@@ -45,11 +44,15 @@ const ParticipationSchema = new mongoose.Schema({
 });
 
 const autoUpdateTrans =  async function (next) {
+    const Seance = require('./seance');
+
 
     let participation = this
 
     if (this instanceof mongoose.Query) {
         participation = this.getUpdate()
+        const base_seance = await Seance.findById(participation.seance)
+        participation.saison = base_seance.saison
     }
     
     
@@ -64,11 +67,11 @@ const autoUpdateTrans =  async function (next) {
             type: 'input',
             date: new Date(),
             saison: participation.saison,
-            description: 'Transaction liée a l\'encaissement montant tontine de la participation '+ participation._id,
+            description: 'Transaction liée a l\'encaissement du montant tontiné de la participation '+ participation._id,
             reference: "participation_trans_montant_tontine" + participation._id
         });
         await trans_montant_tontine.save();
-        participation.trans = trans_montant_tontine._id.toString()
+        participation.trans_montant_tontine = trans_montant_tontine._id.toString()
     } else {
         trans_montant_tontine = await Transaction.findOneAndUpdate(
             { reference: "participation_trans_montant_tontine" + participation._id },
@@ -84,11 +87,11 @@ const autoUpdateTrans =  async function (next) {
             type: 'input',
             date: new Date(),
             saison: participation.saison,
-            description: 'Transaction liée a l\'encaissement montant tontine de la participation '+ participation._id,
+            description: 'Transaction liée a l\'encaissement de la contribution au plat de la participation '+ participation._id,
             reference: "participation_trans_montant_plat" + participation._id
         });
         await trans_montant_plat.save();
-        participation.trans = trans_montant_plat._id.toString()
+        participation.trans_montant_plat = trans_montant_plat._id.toString()
     } else {
         trans_montant_plat = await Transaction.findOneAndUpdate(
             { reference: "participation_trans_montant_plat" + participation._id },
@@ -104,11 +107,11 @@ const autoUpdateTrans =  async function (next) {
             type: 'input',
             date: new Date(),
             saison: participation.saison,
-            description: 'Transaction liée a l\'encaissement montant tontine de la participation '+ participation._id,
+            description: 'Transaction liée a l\'encaissement du prélève,ent sociale de la participation '+ participation._id,
             reference: "participation_trans_montant_prelevement_social" + participation._id
         });
         await trans_montant_prelevement_social.save();
-        participation.trans = trans_montant_prelevement_social._id.toString()
+        participation.trans_montant_prelevement_social = trans_montant_prelevement_social._id.toString()
     } else {
         trans_montant_prelevement_social = await Transaction.findOneAndUpdate(
             { reference: "participation_trans_montant_prelevement_social" + participation._id },

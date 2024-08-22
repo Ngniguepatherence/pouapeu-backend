@@ -1,5 +1,6 @@
 const Inscription = require("../models/inscription_saison");
 const Saison = require("../models/saison");
+const Transaction = require("../models/transaction");
 const { inscriptionSaisonRepositories } = require("../repositories/inscription_saison");
 
 const saisonController = {
@@ -72,7 +73,21 @@ const saisonController = {
             console.error(err)
             es.status(500).json({error: 'internal server error'})
         }
-    }
+    },
+
+    getTransactions: async (req, res) => {
+        Transaction.find({saison : req.params.id})
+        .exec().then(trans => {
+            const bilan = transactionRepositorie.bilan(trans)
+            res.json({
+                bilan: bilan,
+                transactions: trans
+            });
+        }).catch(err=>{
+            console.error(err)
+            res.status(500).json({message: "Internal Server Error" });
+          })
+    },
 }
 
 module.exports = saisonController

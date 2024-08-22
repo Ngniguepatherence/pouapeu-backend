@@ -82,7 +82,7 @@ const SeanceController = {
 
         try {
             const seance = await Seance.findById(req.params.id)
-            await seance.updateOne({...req.body})
+            await seance.updateOne({_id: req.params.id, ...req.body})
 
             await seance.populate([
                 {
@@ -257,6 +257,7 @@ const SeanceController = {
             }}
 
             await seance.updateOne({
+                _id: req.params.id,
                 effectif: effectif,
                 montant_receptioniste: montant_receptioniste,
                 montant_beneficiaire: montant_beneficiaire,

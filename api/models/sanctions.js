@@ -41,6 +41,9 @@ const autoUpdateTrans =  async function (next) {
     let sanction = this
     if (this instanceof mongoose.Query) {
         sanction = this.getUpdate()
+
+        const base_sanction = await Sanctions.findById(sanction._id)
+        sanction.saison = base_sanction.saison
     }
     
     const motif = await MotifSanction.findById(sanction.motif)
