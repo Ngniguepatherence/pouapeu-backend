@@ -19,7 +19,7 @@ const TransactionShema = new mongoose.Schema({
 
     saison: {
         type: mongoose.Types.ObjectId,
-        ref: Saison
+        ref: "saison"
     },
     
     description: {

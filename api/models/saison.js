@@ -14,6 +14,7 @@ const SaisonSchema = new mongoose.Schema({
         type: Date,
         require: true
     },
+    
     montant_contribution_social: {
         type: Number,
         require: false

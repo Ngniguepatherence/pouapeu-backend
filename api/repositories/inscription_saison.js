@@ -8,7 +8,7 @@ const Inscription = require("../models/inscription_saison")
          */
 
         
-        const inscription = new Inscription(req.body)
+        const inscription = new Inscription({...req.body, saison: saison._id})
         await saison.inscription('membre')
 
         if(saison.fond_caisse_minimal < inscription.membre.fond_caisse ){

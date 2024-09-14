@@ -8,8 +8,6 @@ const seanceRepositories  = require('../repositories/seance_repositore');
 const SeanceController = {
     addSeance: async (req, res) => {
         try {
-            const { date, type_seance, nbre_pers_tontinard, nbre_pers_non_tontinard,effectif, beneficaire} = req.body;
-
             var seance = new Seance(req.body);
             await seance.save();
 
@@ -46,7 +44,13 @@ const SeanceController = {
             
             await seance.populate([
                 {
-                    path: 'beneficaire_tontine',
+                    path: 'beneficaire_tontine1',
+                    populate:{
+                        path: 'membre'
+                    }
+                },
+                {
+                    path: 'beneficaire_tontine2',
                     populate:{
                         path: 'membre'
                     }
@@ -86,7 +90,13 @@ const SeanceController = {
 
             await seance.populate([
                 {
-                    path: 'beneficaire_tontine',
+                    path: 'beneficaire_tontine1',
+                    populate:{
+                        path: 'membre'
+                    }
+                },
+                {
+                    path: 'beneficaire_tontine2',
                     populate:{
                         path: 'membre'
                     }
@@ -129,7 +139,13 @@ const SeanceController = {
         Seance.find()
         .populate([
             {
-                path: 'beneficaire_tontine',
+                path: 'beneficaire_tontine1',
+                populate:{
+                    path: 'membre'
+                }
+            },
+            {
+                path: 'beneficaire_tontine2',
                 populate:{
                     path: 'membre'
                 }
@@ -162,7 +178,13 @@ const SeanceController = {
             const seance = await Seance.findById(req.params.id)
             await seance.populate([
                 {
-                    path: 'beneficaire_tontine',
+                    path: 'beneficaire_tontine1',
+                    populate:{
+                        path: 'membre'
+                    }
+                },
+                {
+                    path: 'beneficaire_tontine2',
                     populate:{
                         path: 'membre'
                     }
@@ -216,12 +238,18 @@ const SeanceController = {
 
     saveParticipations: async (req, res) => {
         console.log(req.body)
-        const {participations, beneficaire_tontine, montant_receptioniste, montant_beneficiaire} = req.body
+        const {participations, beneficaire_tontine1, beneficaire_tontine2, montant_receptioniste, montant_beneficiaire1,montant_beneficiaire2, montant_enchere1, montant_enchere2} = req.body
         try {
             const seance = await Seance.findById(req.params.id)
             await seance.populate([
                 {
-                    path: 'beneficaire_tontine',
+                    path: 'beneficaire_tontine1',
+                    populate:{
+                        path: 'membre'
+                    }
+                },
+                {
+                    path: 'beneficaire_tontine2',
                     populate:{
                         path: 'membre'
                     }
@@ -260,8 +288,12 @@ const SeanceController = {
                 _id: req.params.id,
                 effectif: effectif,
                 montant_receptioniste: montant_receptioniste,
-                montant_beneficiaire: montant_beneficiaire,
-                beneficaire_tontine: beneficaire_tontine,
+                beneficaire_tontine1: beneficaire_tontine1,
+                beneficaire_tontine2: beneficaire_tontine2,
+                montant_enchere1: montant_enchere1,
+                montant_enchere2: montant_enchere2,
+                montant_beneficiaire1: 1200000 - montant_enchere1 - 72000,
+                montant_beneficiaire2: 1200000 - montant_enchere2 - 72000,
             })
 
             await participationRepositorie.ApplyAutoSanction(seance._id)
@@ -274,7 +306,13 @@ const SeanceController = {
             const newSeance = await Seance.findById(req.params.id)
             await newSeance.populate([
                 {
-                    path: 'beneficaire_tontine',
+                    path: 'beneficaire_tontine1',
+                    populate:{
+                        path: 'membre'
+                    }
+                },
+                {
+                    path: 'beneficaire_tontine2',
                     populate:{
                         path: 'membre'
                     }
