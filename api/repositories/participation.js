@@ -42,7 +42,13 @@ const seanceRepositories = require("./seance_repositore")
             const seance = await Seance.findById(seance_id)
             await seance.populate([
                 {
-                    path: 'beneficaire_tontine',
+                    path: 'beneficaire_tontine1',
+                    populate:{
+                        path: 'membre'
+                    }
+                },
+                {
+                    path: 'beneficaire_tontine2',
                     populate:{
                         path: 'membre'
                     }

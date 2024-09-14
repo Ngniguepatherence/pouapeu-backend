@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const Profile = require('./profil');
-const { checkAndApplyTrans } = require('./seance');
 const Saison = require('./saison');
 const Transaction = require('./transaction');
+const transactionRepositorie = require('../repositories/transsaction');
 
+const checkAndApplyTrans = transactionRepositorie.checkAndApplyTrans
 
 const InscriptionSchema = new mongoose.Schema({
     membre: {
@@ -34,7 +35,7 @@ const InscriptionSchema = new mongoose.Schema({
         required: true,
     },
 
-    fond_caisse: { type: Number, required: false },
+    fond_caisse: { type: Number, required: false, default: 0 },
     trans_fond_caisse: {type: mongoose.Schema.Types.ObjectId, ref: Transaction},
 });
 

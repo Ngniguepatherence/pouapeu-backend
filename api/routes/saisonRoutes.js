@@ -5,6 +5,7 @@ const saisonController = require('../controllers/saisonController');
 
 
 router.post('/', saisonController.addSaison);
+router.put('/:id', saisonController.updateSaison);
 router.get('/', saisonController.getAll);
 router.get('/:id', saisonController.getOne);
 router.get('/:id/transactions', saisonController.getTransactions);

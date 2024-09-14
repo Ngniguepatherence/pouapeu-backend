@@ -5,7 +5,9 @@ const Saison = require('./saison');
 const Sanctions = require('./sanctions');
 const Inscription = require('./inscription_saison');
 const Transaction = require('./transaction');
+const transactionRepositorie = require('../repositories/transsaction');
 
+const checkAndApplyTrans = transactionRepositorie.checkAndApplyTrans
 const SeanceSchema = new Mongoose.Schema({
     date: {
         type: String,
@@ -124,27 +126,6 @@ const SeanceSchema = new Mongoose.Schema({
     next();
 }
 
-const checkAndApplyTrans = async (trans, montant_attr_name, base_obj, saison_id, trans_base_ref, trans_type, trans_base_desc ) => {
-    if(!trans){
-        
-        trans = new Transaction({
-            montant: base_obj[montant_attr_name],
-            type: trans_type,
-            date: new Date(),
-            saison: saison_id,
-            description: trans_base_desc+ " "+ base_obj._id,
-            reference: trans_base_ref+ "_" + base_obj._id
-        });
-        await trans.save();
-        base_obj.trans = trans._id.toString()
-    } else {
-        trans = await Transaction.findOneAndUpdate(
-            { reference: trans_base_ref + base_obj._id },
-            { montant: base_obj[montant_attr_name], date: new Date() },
-            { new: true }
-        );
-    }
-}
 
 SeanceSchema.pre('updateOne',{ document: false, query: true },autoUpdateTrans);
 

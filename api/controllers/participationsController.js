@@ -11,7 +11,7 @@ const ParticipationsController = {
 
            
             console.log(participations)
-            res.json(participations.filter( elt => elt.montant_tontine > 0));
+            res.json(participations.filter( elt => elt.montant_tontine > 0).reverse());
         }catch(err){
             console.error(err)
             res.status(500).json({message: "Internal Server Error" });

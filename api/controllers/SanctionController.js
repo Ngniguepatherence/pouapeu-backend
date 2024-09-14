@@ -29,7 +29,7 @@ const sanctionsController = {
         ])
         .exec().then(sanctions=> {
             // console.log(sanctions)
-              res.json(sanctions);
+              res.json(sanctions.reverse());
             
           }).catch(err=>{
             console.error(err)

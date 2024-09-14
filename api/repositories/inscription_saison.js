@@ -8,10 +8,8 @@ const Inscription = require("../models/inscription_saison")
          */
 
         
-        const inscription = new Inscription({...req.body, saison: saison._id})
-        await saison.inscription('membre')
-
-        if(saison.fond_caisse_minimal < inscription.membre.fond_caisse ){
+        const inscription = new Inscription({...inscriptionData, saison: saison._id})
+        if(saison.fond_caisse_minimal <= inscriptionData.fond_caisse ){
             await inscription.save()
             await saison.populate({
                 path:'participants',

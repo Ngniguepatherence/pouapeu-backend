@@ -1,7 +1,7 @@
 const Inscription = require("../models/inscription_saison");
 const Saison = require("../models/saison");
 const Transaction = require("../models/transaction");
-const { inscriptionSaisonRepositories } = require("../repositories/inscription_saison");
+const inscriptionSaisonRepositories = require("../repositories/inscription_saison");
 
 const saisonController = {
     addSaison: async (req, res) => {
@@ -16,7 +16,25 @@ const saisonController = {
 
         }catch(err){
             console.error(err)
-            es.status(500).json({error: 'Erreur lors de la creation de la saison'})
+            res.status(500).json({error: 'Erreur lors de la creation de la saison'})
+        }
+    },
+
+
+    updateSaison: async (req, res) => {
+
+        try{
+            var saison = await Saison.findByIdAndUpdate(req.params.id,{...req.body});
+            await saison.populate({
+                path:'participants',
+                populate: 'membre'
+            })
+            console.log('saison',saison)
+            return res.status(201).json(saison);
+
+        }catch(err){
+            console.error(err)
+            res.status(500).json({error: 'Erreur lors de la creation de la saison'})
         }
     },
 
@@ -27,7 +45,7 @@ const saisonController = {
                 populate: 'membre'
             })
             console.log(saisons)
-            res.json(saisons);
+            res.json(saisons.reverse());
         }catch(err){
             console.error(err)
             res.status(500).json({error: 'internal server error'})
@@ -66,8 +84,6 @@ const saisonController = {
                 path:'participants',
                 populate: 'membre'
             })
-            console.log(saison)
-
             res.json(saison);
         }catch(err){
             console.error(err)
@@ -81,7 +97,7 @@ const saisonController = {
             const bilan = transactionRepositorie.bilan(trans)
             res.json({
                 bilan: bilan,
-                transactions: trans
+                transactions: trans.reverse()
             });
         }).catch(err=>{
             console.error(err)

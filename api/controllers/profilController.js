@@ -48,7 +48,7 @@ const profilController = {
     getProfils: async (req,res) => {
         try{
             const Profil = await profil.find();
-            res.json(Profil);
+            res.json(Profil.reverse());
         }catch(error) {
             res.status(500).json({message: "Internal Server Error"});
         }

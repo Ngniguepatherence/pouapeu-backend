@@ -136,7 +136,7 @@ const SeanceController = {
 
 
     getALL: async (req, res) => {
-        Seance.find()
+        Seance.find().sort({ createdAt: -1 })
         .populate([
             {
                 path: 'beneficaire_tontine1',
@@ -157,7 +157,7 @@ const SeanceController = {
                 }
             },])
         .exec().then(seances=> {
-              res.json(seances);
+              res.json(seances.reverse());
             
           }).catch(err=>{
             console.error(err)
@@ -238,7 +238,7 @@ const SeanceController = {
 
     saveParticipations: async (req, res) => {
         console.log(req.body)
-        const {participations, beneficaire_tontine1, beneficaire_tontine2, montant_receptioniste, montant_beneficiaire1,montant_beneficiaire2, montant_enchere1, montant_enchere2} = req.body
+        const {participations, beneficaire_tontine1, beneficaire_tontine2, montant_receptioniste,  montant_enchere1, montant_enchere2} = req.body
         try {
             const seance = await Seance.findById(req.params.id)
             await seance.populate([
@@ -296,6 +296,7 @@ const SeanceController = {
                 montant_beneficiaire2: 1200000 - montant_enchere2 - 72000,
             })
 
+            
             await participationRepositorie.ApplyAutoSanction(seance._id)
 
             await seanceRepositories.calsulateSeanceSummary(seance._id)

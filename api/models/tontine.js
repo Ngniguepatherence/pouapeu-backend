@@ -1,6 +1,6 @@
 // Customer.js
 const mongoose = require('mongoose');
-const Seance = require('./seance')
+const Seance = require('./seance');
 
 const TontineSchema = new mongoose.Schema({
   
@@ -10,7 +10,7 @@ const TontineSchema = new mongoose.Schema({
   Montant: { type: String, required: true },
   seance: { 
     type: mongoose.Schema.Types.ObjectId, 
-    ref: Seance 
+    ref: Seance
   },
   createat: {
     type: Date,
